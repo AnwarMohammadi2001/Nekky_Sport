@@ -9,15 +9,12 @@ import { fileURLToPath } from "url";
 import sequelize from "./config/db.js";
 
 // ✅ Import Models (نام فایل‌ها دقیق باشد)
-import Project from "./models/Project.js";
-import Category from "./models/Category.js";
-import SubCategory from "./models/SubCategory.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import attributeRoutes from "./routes/attributeRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 // ✅ Import Routes
 import authRoutes from "./routes/authRoutes.js";
-
-import projectRoutes from "./routes/projectRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
 
 const app = express();
@@ -62,8 +59,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // ✅ Serve static files
-const uploadsDir = path.join(__dirname, "uploads");
-app.use("/uploads", express.static(uploadsDir));
+app.use("/uploads", express.static("uploads"));
 
 // ✅ Test route
 app.get("/", (req, res) => {
@@ -72,8 +68,9 @@ app.get("/", (req, res) => {
 
 // ✅ API Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/projects", projectRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/attributes", attributeRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/contact", emailRoutes);
 
 // ✅ 404 Handler (این را اضافه کنید تا بفهمیم چه آدرسی اشتباه است)
@@ -84,31 +81,12 @@ app.use((req, res, next) => {
     method: req.method, // متد درخواست (GET, POST)
   });
 });
-// ✅ Define Database Relationships
-const setupAssociations = () => {
-  // Category <-> SubCategory
-  Category.hasMany(SubCategory, { onDelete: "CASCADE" });
-  SubCategory.belongsTo(Category);
-
-  // Category <-> Project
-  Category.hasMany(Project, { onDelete: "CASCADE" });
-  Project.belongsTo(Category);
-
-  // SubCategory <-> Project
-  SubCategory.hasMany(Project, { onDelete: "SET NULL" });
-  Project.belongsTo(SubCategory);
-
-  console.log("✅ Database associations established.");
-};
 
 // ✅ Start Server
 const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log("✅ MySQL connected via Sequelize!");
-
-    // اجرای روابط قبل از سینک
-    setupAssociations();
 
     // سینک کردن جداول (alter: true تغییرات جدید را بدون حذف داده‌ها اعمال می‌کند)
     await sequelize.sync({ alter: true });

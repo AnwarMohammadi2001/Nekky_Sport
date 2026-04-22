@@ -1,31 +1,29 @@
+// routes/categoryRoutes.js
+
 import express from "express";
+import upload from "../middleware/upload.js";
+
 import {
   createCategory,
-  getAllCategories,
-  getCategoryById,
+  getCategories,
+  getCategory,
   updateCategory,
   deleteCategory,
-  createSubCategory,
-  getAllSubCategories,
-  getSubCategoryById,
-  updateSubCategory,
-  deleteSubCategory,
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
 
-/* CATEGORY */
-router.post("/", createCategory);
-router.get("/", getAllCategories);
-router.get("/:id", getCategoryById);
-router.put("/:id", updateCategory);
-router.delete("/:id", deleteCategory);
+// CREATE with image
+router.post("/", upload.single("image"), createCategory);
 
-/* SUB CATEGORY */
-router.post("/sub", createSubCategory);
-router.get("/sub", getAllSubCategories);
-router.get("/sub/:id", getSubCategoryById);
-router.put("/sub/:id", updateSubCategory);
-router.delete("/sub/:id", deleteSubCategory);
+// UPDATE with image
+router.put("/:id", upload.single("image"), updateCategory);
+
+// READ
+router.get("/", getCategories);
+router.get("/:id", getCategory);
+
+// DELETE
+router.delete("/:id", deleteCategory);
 
 export default router;

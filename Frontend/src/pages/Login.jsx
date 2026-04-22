@@ -1,0 +1,117 @@
+import React, { useState, useContext } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const LoginPage = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${BASE_URL}/api/auth/login`, {
+        email,
+        password,
+      });
+
+      login(res.data.user, res.data.token);
+      toast.success("ورود با موفقیت انجام شد!");
+      navigate("/dashboard");
+    } catch (err) {
+      const msg = err.response?.data?.message || "ورود ناموفق بود";
+      toast.error(msg);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-900 px-4">
+      {/* Heading */}
+      <h2 className="text-lg font-bold text-center text-gray-900 dark:text-white">
+        ورود به حساب
+      </h2>
+      <p className="text-gray-600 dark:text-gray-300 text-sm mt-2 text-center max-w-sm">
+        لطفاً معلومات خود را برای دسترسی به حساب وارد کنید.
+      </p>
+
+      {/* Form */}
+      <form className="w-full flex flex-col  max-w-sm mt-6 space-y-6" onSubmit={handleLogin}>
+        {/* Email */}
+        <div className="relative">
+          <input
+            type="email"
+            id="email"
+            placeholder=" "
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="peer w-full border-2 rounded-md px-4 py-4 dark:bg-gray-900 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-1 focus:ring-black"
+            required
+          />
+          <label
+            htmlFor="email"
+            className="absolute right-4 -top-3 bg-white dark:bg-gray-900 px-2 text-gray-500 text-sm transition-all duration-300
+                       peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+                       peer-focus:-top-3 peer-focus:bg-white peer-focus:dark:bg-gray-900 peer-focus:px-2 peer-focus:text-sm peer-focus:text-black dark:peer-focus:text-white"
+          >
+            آدرس ایمیل*
+          </label>
+        </div>
+
+        {/* Password */}
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            placeholder=" "
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="peer w-full border-2 rounded-md px-4 py-4 dark:bg-gray-900 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-1 focus:ring-black"
+            required
+          />
+          <label
+            htmlFor="password"
+            className="absolute right-4 -top-3 bg-white dark:bg-gray-900 px-2 text-gray-500 text-sm transition-all duration-300
+                       peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+                       peer-focus:-top-3 peer-focus:bg-white peer-focus:dark:bg-gray-900 peer-focus:px-2 peer-focus:text-sm peer-focus:text-black dark:peer-focus:text-white"
+          >
+            رمز عبور*
+          </label>
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute left-3 top-5 text-gray-500"
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </button>
+        </div>
+
+        {/* Forgot Password */}
+
+        {/* Login Button */}
+        <button
+          type="submit"
+          className="w-full bg-black dark:bg-gray-700 cursor-pointer hover:scale-103 text-white font-bold py-3 rounded-full transition-all duration-300"
+        >
+          ورود
+        </button>
+        <Link
+          to="/"
+          className="w-full bg-black text-center px-5 dark:bg-gray-700 cursor-pointer hover:scale-103 text-white font-bold py-3 rounded-full transition-all duration-300"
+        >
+          برگشت به صفحه اصلی
+        </Link>
+      </form>
+    </div>
+  );
+};
+
+export default LoginPage;

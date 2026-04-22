@@ -1,82 +1,259 @@
-import React, { useState, useRef } from "react";
-import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
-import MegaMenu from "../MegaMenu";
-// اصلاح آیکون‌ها به نام‌های استاندارد برای جلوگیری از خطای ورژن
-import { FaWhatsapp, FaFacebook, FaInstagram } from "react-icons/fa"; 
-import { AiFillHome } from "react-icons/ai";
-import { FaBoxOpen, FaHeadset } from "react-icons/fa";
-import { PiExclamationMarkFill, PiQuestionMarkFill } from "react-icons/pi";
-import { IoIosDownload } from "react-icons/io";
-
-const navbarItems = [
-  { name: "صفحه اصلی", path: "/", icon: <AiFillHome /> },
-  { name: "محصولات", path: "/products", icon: <FaBoxOpen /> },
-  { name: "دانلود", path: "/download", icon: <IoIosDownload /> },
-  { name: "پشتیبانی", path: "/support", icon: <FaHeadset /> },
-  { name: "درباره ما", path: "/aboutus", icon: <PiExclamationMarkFill /> },
-  { name: "راهنمایی", path: "/help", icon: <PiQuestionMarkFill /> },
-];
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { PiSignIn } from "react-icons/pi";
+import { CiLogin } from "react-icons/ci";
 
 const Navbar = () => {
-  const [showMegaMenu, setShowMegaMenu] = useState(false);
-  const leaveTimerRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const location = useLocation();
 
-  const handleEnter = () => {
-    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
-    setShowMegaMenu(true);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLeave = () => {
-    leaveTimerRef.current = setTimeout(() => {
-      setShowMegaMenu(false);
-    }, 200);
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Detect scroll for navbar style change
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+
+      // Identify active section
+      const sections = [
+        "home",
+        "biography",
+        "painting",
+        "graphic",
+        "interview",
+        "design",
+        "exhibition",
+        "theater",
+        "miscellaneous",
+        "contact",
+      ];
+      const currentSection = sections.find((section) => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Menu items with different colors for active state
+  const menuItems = [
+    {
+      id: "biography",
+      name: "Biography",
+      path: "/",
+    },
+    {
+      id: "painting",
+      name: "Watercolor",
+      path: "/painting",
+    },
+    {
+      id: "graphic",
+      name: "Graphic",
+      path: "/graphic",
+    },
+    {
+      id: "interview",
+      name: "Interview",
+      path: "/interview",
+    },
+    {
+      id: "exhibition",
+      name: "Exhibitions & Awards",
+      path: "/exhibition",
+    },
+    {
+      id: "theater",
+      name: "Children Art",
+      path: "/children",
+    },
+    {
+      id: "achivment",
+      name: "Achievements",
+      path: "/achivment",
+    },
+    {
+      id: "miscellaneous",
+      name: "Miscellaneous",
+      path: "/miscellaneous",
+    },
+    {
+      id: "contact",
+      name: "Contact Us",
+      path: "/contact",
+    },
+  ];
+
+  // Function to check if current path matches menu item
+  const isActivePath = (path) => {
+    // If on homepage and path is "/"
+    if (location.pathname === "/" && path === "/") return true;
+
+    // For other pages, check if path starts with item path
+    return location.pathname.startsWith(path) && path !== "/";
   };
 
   return (
-    <div className="bg-gray-100 py-3 hidden md:block border-b">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between px-4">
-        <div className="flex items-center gap-x-10">
-          
-          {/* 🔥 ALL PRODUCTS BUTTON (Dynamic MegaMenu) */}
-          <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
-            <button className={`flex items-center gap-x-2 font-bold transition-all duration-300 py-2 ${showMegaMenu ? "text-red-600" : "text-black"}`}>
-              <Menu className="w-5 h-5" />
-              <span>دسته بندی محصولات</span>
-            </button>
+    <>
+      {/* Main Navbar */}
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all py-2.5 bg-cyan-700 duration-300 ${
+          scrolled ? "" : ""
+        }`}
+      >
+        <div className="max-w-7xl py-3 mx-auto px-4">
+          <div className="flex items-center md:justify-center">
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center justify-center gap-x-8">
+              {menuItems.map((item) => {
+                const isActive =
+                  activeSection === item.id || isActivePath(item.path);
 
-            {showMegaMenu && (
-              <div className="absolute right-0 top-full pt-2 z-50">
-                {/* پاس دادن تابع بستن منو به مگامنو */}
-                <MegaMenu onClose={() => setShowMegaMenu(false)} />
-              </div>
-            )}
-          </div>
+                return (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    className={`relative font-medium group transition-colors duration-300
+          ${isActive ? "text-gray-300" : "text-gray-100 hover:text-gray-300"}
+        `}
+                  >
+                    {item.name}
 
-          {/* 🔹 Dynamic Nav Links */}
-          <div className="flex items-center gap-x-6">
-            {navbarItems.map((item, index) => (
-              <Link
-                key={index}
-                to={item.path}
-                className="relative flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-red-600 transition-colors group"
+                    {/* Underline */}
+                    <span
+                      className={`absolute right-0 -bottom-1 h-[2px] w-full bg-gray-300
+            transform transition-transform duration-300 origin-right
+            ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}
+          `}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="flex items-center gap-x-4 justify-between">
+              {/* Mobile Menu Button */}
+              <button
+                onClick={toggleMenu}
+                className="lg:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md"
+                aria-label="Menu"
               >
-                {item.icon}
-                {item.name}
-                <span className="absolute -bottom-4 left-0 w-full h-0.5 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform origin-center" />
-              </Link>
-            ))}
+                <span
+                  className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+                    isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                  }`}
+                ></span>
+                <span
+                  className={`block w-6 h-0.5 bg-white my-1.5 transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                ></span>
+                <span
+                  className={`block w-6 h-0.5 bg-white transition-all duration-300 ${
+                    isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                  }`}
+                ></span>
+              </button>
+              <p className="md:hidden text-gray-50 font-bold text-lg">
+                Hamid Reza Khaje Mohammadi
+              </p>
+            </div>
           </div>
-        </div>
-
-        {/* Social Icons - اصلاح شده */}
-        <div className="flex items-center gap-x-4">
-          <FaWhatsapp className="text-green-500 hover:scale-110 transition cursor-pointer" size={24} />
-          <FaFacebook className="text-blue-600 hover:scale-110 transition cursor-pointer" size={24} />
-          <FaInstagram className="text-pink-600 hover:scale-110 transition cursor-pointer" size={24} />
         </div>
       </nav>
-    </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-gradient-to-b from-white to-blue-50 shadow-2xl z-50 transform transition-transform duration-500 ease-in-out lg:hidden ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Mobile Menu Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center gap-x-5">
+              <Link
+                to="/login"
+                className="w-10 h-10 flex items-center justify-center rounded-full  hover:bg-red-100 text-gray-700 bg-gray-200 hover:text-red-600 transition-colors"
+                aria-label="Close menu"
+              >
+                <span className="text-2xl">
+                  <CiLogin />
+                </span>
+              </Link>
+            </div>
+            <button
+              onClick={closeMenu}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 hover:bg-red-100 text-gray-700 hover:text-red-600 transition-colors"
+              aria-label="Close menu"
+            >
+              <span className="text-2xl">×</span>
+            </button>
+          </div>
+
+          {/* Mobile Menu List */}
+          <div className="flex-1 overflow-y-auto p-6">
+            <ul className="space-y-1">
+              {menuItems.map((item, index) => {
+                const isActive =
+                  activeSection === item.id || isActivePath(item.path);
+
+                return (
+                  <li key={index}>
+                    <Link
+                      to={item.path}
+                      className={`flex items-center p-4 rounded-md border-b transition-all
+                        ${
+                          isActive
+                            ? `${"text-amber-600"} shadow-sm border-r-4}`
+                            : "hover:bg-gray-100 text-gray-700 hover:text-gray-900"
+                        }`}
+                      onClick={closeMenu}
+                    >
+                      <span className="font-medium text-lg">{item.name}</span>
+                      {isActive && (
+                        <span className="mr-auto w-2 h-2 rounded-full animate-pulse"></span>
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay for closing menu */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+          onClick={closeMenu}
+        ></div>
+      )}
+
+      {/* Spacer to prevent content from being covered */}
+      <div className="h-[69px]"></div>
+    </>
   );
 };
 

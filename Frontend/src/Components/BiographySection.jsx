@@ -1,0 +1,386 @@
+import React, { useState, useRef } from "react";
+import {
+  FaPalette,
+  FaBook,
+  FaAward,
+  FaGraduationCap,
+  FaUsers,
+  FaGlobe,
+  FaHandsHelping,
+  FaPlay,
+  FaPause,
+  FaVolumeUp,
+  FaVolumeMute,
+} from "react-icons/fa";
+import { IoIosArrowRoundUp } from "react-icons/io";
+
+const BiographySection = () => {
+  const [expanded, setExpanded] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [videoMuted, setVideoMuted] = useState(true);
+  const [showVideoControls, setShowVideoControls] = useState(false);
+  const videoRef = useRef(null);
+
+  const toggleVideoPlay = () => {
+    if (videoRef.current) {
+      if (videoPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setVideoPlaying(!videoPlaying);
+    }
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setVideoMuted(!videoMuted);
+    }
+  };
+
+  const biographyText = `
+Hamidreza Khajehmohammadi is an Iranian artist—painter, graphic designer, illustrator of children’s and young adult books, and a specialist in children’s art education. He has more than three decades of professional experience in artistic production, art education, and socio-political engagement. Owing to his long-standing work in the field of children’s rights and peace advocacy, he is recognized as a peace artist and an activist for the rights of children and adolescents, and is regarded as a prominent figure in children’s art and art education in Iran.
+He holds a Bachelor’s degree in Graphic Design from the University of Art in Tehran and has been awarded the Grade II Artistic Degree (equivalent to a Master’s degree) and the Grade I Artistic Degree (equivalent to a Doctorate) by Iran’s Artists Evaluation Council.
+Khajehmohammadi taught on a contractual basis at Iranian art universities for fifteen years, playing an active role in academic and cultural development, advocating for students’ educational and professional rights, and helping establish student professional associations. He is the founder and managing director of the Khajehmohammadi Cultural and Artistic Institute and has also directed a specialized watercolor painting academy. Within these institutions, he organized extensive educational programs, advanced art workshops, and socio-political forums focused on freedom of expression and human rights.
+He also founded and managed a social counseling center with an art-therapy approach for children, officially licensed by Iran’s State Welfare Organization, and has maintained professional collaboration with the Institute for the Intellectual Development of Children and Young Adults in Iran.
+Khajehmohammadi has illustrated more than forty books for children and adolescents and has created dozens of posters and graphic works. His artworks have been exhibited in numerous national and international exhibitions and have received awards and commendations. Several of his works are preserved in artistic collections and museums inside and outside Iran.
+His child and adolescent students have won dozens of gold, silver, and bronze medals in reputable international children’s painting biennials, demonstrating the profound impact of his mentorship and pedagogy.
+His artistic practice is interdisciplinary and extends beyond a single medium, encompassing architectural sketching, urban architectural design, sculpture, writing, directing children’s and youth theater, and music. This interdisciplinary orientation is a defining characteristic of his artistic career.
+Due to his political background and his cultural, artistic, social, and human rights activities, he faced professional restrictions and prohibitions in Iran and was compelled to leave the country in 2016. After migrating to Afghanistan, he registered with the United Nations High Commissioner for Refugees (UNHCR) and was officially recognized as a refugee.
+During nearly a decade of residence in Afghanistan, despite difficult living conditions, insecurity, and ongoing threats, he has continued his artistic, educational, and humanitarian work. Following several peace-themed exhibitions organized with his child and adolescent students and his broader peace-oriented social initiatives, he became widely known there as a peace artist. He has implemented more than thirty free artistic and educational programs for children, adolescents, underprivileged and war-affected families, and Afghan women. A portion of his paintings from this period reflects his lived experience of displacement, insecurity, and deep human and human-rights concerns, particularly in the domain of children’s rights.
+Hamidreza Khajehmohammadi was born in Mashhad, Iran, and at the age of 68 is an artist whose lifetime of knowledge and human commitment is dedicated to using art as a means of education, peacebuilding, advocacy for children’s rights, and the preservation of human dignity.
+  `;
+
+  const keyAchievements = [
+    {
+      icon: <FaBook className="text-amber-500" />,
+      title: "Illustrated Books",
+      count: "40+",
+      description: "Children's and young adult books",
+    },
+    {
+      icon: <FaPalette className="text-cyan-500" />,
+      title: "Art Exhibitions",
+      count: "50+",
+      description: "National & International",
+    },
+    {
+      icon: <FaGraduationCap className="text-purple-500" />,
+      title: "Teaching Years",
+      count: "15",
+      description: "At Iranian universities",
+    },
+    {
+      icon: <FaUsers className="text-emerald-500" />,
+      title: "Humanitarian Initiatives",
+      count: "30+",
+      description: "Free programs in Afghanistan",
+    },
+    {
+      icon: <FaAward className="text-rose-500" />,
+      title: "Artistic Recognition",
+      count: "First-Class",
+      description: "Doctorate equivalent degree",
+    },
+    {
+      icon: <FaHandsHelping className="text-indigo-500" />,
+      title: "Peace Artist",
+      count: "UNHCR",
+      description: "Recognized refugee artist",
+    },
+  ];
+
+  return (
+    <div className="relative overflow-hidden bg-gradient-to-b from-white to-amber-50/30 py-16 md:py-24">
+      {/* Background Decorations */}
+      <div className="absolute inset-0 z-0 opacity-20">
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <div className="w-12 h-1 bg-gradient-to-r from-amber-400 to-cyan-400"></div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-700">
+                Biography
+              </span>
+            </h2>
+            <div className="w-12 h-1 bg-gradient-to-r from-cyan-400 to-amber-400"></div>
+          </div>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            A lifetime dedicated to art, education, and humanitarian work
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Left Column - Biography Text */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-md shadow-xl border border-gray-100 overflow-hidden p-6 md:p-8">
+              {/* Bio Header */}
+              <div className="mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Biography of Hamidreza Khajehmohammadi
+                </h3>
+              </div>
+
+              {/* Biography Content */}
+              <div className="space-y-6">
+                <div
+                  className={`text-gray-700 leading-relaxed ${expanded ? "" : "line-clamp-6"}`}
+                >
+                  {expanded ? (
+                    <div className="space-y-6">
+                      {biographyText.split("\n\n").map((paragraph, index) => (
+                        <p key={index} className="mb-4 text-lg">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-lg">{biographyText.split("\n\n")[0]}</p>
+                  )}
+                </div>
+
+                {/* Read More Button */}
+                <div className="pt-4">
+                  <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="group px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+                  >
+                    <span>
+                      {expanded ? "Show Less" : "Read Full Biography"}
+                    </span>
+                    <IoIosArrowRoundUp
+                      className={`transform transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+                      size={20}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Key Achievements Grid */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+              {keyAchievements.map((achievement, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-md px-5 py-8 md:py-5 border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="p-3 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-sm">
+                      {achievement.icon}
+                    </div>
+                    <div>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-2xl font-bold text-gray-900">
+                          {achievement.count}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-600">
+                          {achievement.title}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {achievement.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column - Image and Video */}
+          <div className="flex flex-col gap-6">
+            {/* Image Card */}
+            <div className="group relative overflow-hidden rounded-xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-500">
+              <img
+                src="home.jpg"
+                alt="Hamidreza in studio"
+                className="w-full  object-contain transform group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-white font-semibold text-lg">
+                  Studio Session
+                </p>
+                <p className="text-gray-200 text-sm">Artist at work</p>
+              </div>
+            </div>
+
+            {/* Video Card with Player Controls - No overlay initially */}
+            <div
+              className="relative overflow-hidden rounded-xl shadow-lg border border-gray-200 group"
+              onMouseEnter={() => setShowVideoControls(true)}
+              onMouseLeave={() => setShowVideoControls(false)}
+            >
+              <video
+                ref={videoRef}
+                src="hero.mp4"
+                muted={videoMuted}
+                preload="metadata"
+                playsInline
+                className="w-full h-64 object-cover"
+                onLoadedMetadata={(e) => {
+                  e.currentTarget.currentTime = 0.1;
+                }}
+                onPlay={() => setVideoPlaying(true)}
+                onPause={() => setVideoPlaying(false)}
+              />
+
+              {/* Play button overlay - only when video is paused */}
+              {!videoPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-transparent via-transparent to-transparent">
+                  <button
+                    onClick={toggleVideoPlay}
+                    className="bg-white/90 hover:bg-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 transform"
+                  >
+                    <FaPlay className="text-gray-900 ml-1" size={24} />
+                  </button>
+                </div>
+              )}
+
+              {/* Video Controls Overlay - Show on hover or when video is playing */}
+              {(showVideoControls || videoPlaying) && (
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent transition-opacity duration-300">
+                  {/* Top status bar */}
+                  <div className="absolute top-0 left-0 right-0 p-3 flex justify-between items-center">
+                    <div className="flex items-center gap-2 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                      <div
+                        className={`w-2 h-2 rounded-full ${videoPlaying ? "bg-emerald-400" : "bg-amber-400"}`}
+                      ></div>
+                      <span>{videoPlaying ? "Playing" : "Paused"}</span>
+                      <span className="text-gray-300">•</span>
+                      <span>{videoMuted ? "Muted" : "Sound on"}</span>
+                    </div>
+
+                    {/* Mute/Unmute Button */}
+                    <button
+                      onClick={toggleMute}
+                      className="bg-black/70 hover:bg-black/90 text-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                    >
+                      {videoMuted ? (
+                        <FaVolumeMute size={18} />
+                      ) : (
+                        <FaVolumeUp size={18} />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Center play/pause button */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <button
+                      onClick={toggleVideoPlay}
+                      className="bg-white/90 hover:bg-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110"
+                    >
+                      {videoPlaying ? (
+                        <FaPause className="text-gray-900" size={24} />
+                      ) : (
+                        <FaPlay className="text-gray-900 ml-1" size={24} />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Bottom controls */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-white font-semibold">
+                          Artistic Journey
+                        </p>
+                        <p className="text-gray-300 text-sm">Watch the story</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={toggleVideoPlay}
+                          className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 rounded-lg transition-colors"
+                        >
+                          {videoPlaying ? (
+                            <FaPause size={16} />
+                          ) : (
+                            <FaPlay size={16} />
+                          )}
+                        </button>
+                        <button
+                          onClick={toggleMute}
+                          className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 rounded-lg transition-colors"
+                        >
+                          {videoMuted ? (
+                            <FaVolumeMute size={16} />
+                          ) : (
+                            <FaVolumeUp size={16} />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Always visible play indicator when video is not playing */}
+              {!videoPlaying && !showVideoControls && (
+                <div className="absolute bottom-4 right-4">
+                  <div className="bg-black/60 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                    <FaPlay size={12} />
+                    <span>Click to play</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Timeline Section */}
+        <div className="bg-white rounded-md shadow-sm border mt-8 border-gray-100 p-6">
+          <h4 className="text-xl font-bold text-center md:text-start text-gray-900 mb-6 pb-3 border-b border-gray-100">
+            Career Timeline
+          </h4>
+          <div className="flex justify-center md:justify-between gap-5 flex-wrap items-center">
+            {[
+              {
+                year: "1990s",
+                event: "Teaching at Iranian universities",
+                color: "bg-amber-100 text-amber-700",
+              },
+              {
+                year: "2010",
+                event: "First-class artistic degree awarded",
+                color: "bg-purple-100 text-purple-700",
+              },
+              {
+                year: "2016",
+                event: "Relocation to Afghanistan",
+                color: "bg-emerald-100 text-emerald-700",
+              },
+              {
+                year: "Present",
+                event: "UNHCR recognized peace artist",
+                color: "bg-rose-100 text-rose-700",
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="flex border flex-col h-[120px] w-[320px] text-center items-center gap-4 group hover:bg-gray-50 p-3 rounded-xl transition-colors duration-200"
+              >
+                <div
+                  className={`px-3 py-1 rounded-full text-sm font-semibold ${item.color}`}
+                >
+                  {item.year}
+                </div>
+                <div className="flex-1">
+                  <p className="text-gray-700 font-medium">{item.event}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BiographySection;
