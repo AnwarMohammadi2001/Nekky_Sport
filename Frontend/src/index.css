@@ -1,6 +1,6 @@
 @font-face {
-  font-family: Poppins;
-  src: url("../src/assets/font/Poppins-Regular.ttf");
+  font-family: Ray_text;
+  src: url("./font/Ray-Medium.ttf");
 }
 @font-face {
   font-family: Satisfy;
@@ -22,7 +22,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
-  --font-Poppins: kaman, sans-serif;
+  --font-Ray_text: Ray_text, sans-serif;
   --font-Roboto: Roboto, sans-serif;
   --font-Satisfy: Satisfy, sans-serif;
 }

@@ -12,6 +12,9 @@ import sequelize from "./config/db.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import attributeRoutes from "./routes/attributeRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import sliderRoutes from "./routes/sliderRoutes.js";
+
+
 
 // ✅ Import Routes
 import authRoutes from "./routes/authRoutes.js";
@@ -72,6 +75,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/attributes", attributeRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/contact", emailRoutes);
+app.use("/api/v1/website/sliders", sliderRoutes);
 
 // ✅ 404 Handler (این را اضافه کنید تا بفهمیم چه آدرسی اشتباه است)
 app.use((req, res, next) => {

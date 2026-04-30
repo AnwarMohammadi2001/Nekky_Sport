@@ -6,6 +6,7 @@ import AttributeOption from "./AttributeOption.js";
 import Product from "./Product.js";
 import ProductAttributeValue from "./ProductAttributeValue.js";
 import ProductImage from "./ProductImage.js";
+import Slider from "./Slider.js";
 
 // روابط
 
@@ -20,11 +21,11 @@ Product.belongsTo(Category, { foreignKey: "categoryId" });
 
 Product.hasMany(ProductImage, { foreignKey: "productId" });
 ProductImage.belongsTo(Product, { foreignKey: "productId" });
+ProductAttributeValue.belongsTo(Attribute, { foreignKey: "attributeId" });
+Attribute.hasMany(ProductAttributeValue, { foreignKey: "attributeId" });
 
 Product.hasMany(ProductAttributeValue, { foreignKey: "productId" });
 ProductAttributeValue.belongsTo(Product, { foreignKey: "productId" });
-
-ProductAttributeValue.belongsTo(Attribute, { foreignKey: "attributeId" });
 
 export {
   Category,
@@ -33,4 +34,5 @@ export {
   Product,
   ProductAttributeValue,
   ProductImage,
+  Slider,
 };

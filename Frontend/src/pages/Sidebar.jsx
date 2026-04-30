@@ -37,15 +37,10 @@ const Sidebar = ({ activeComponent, setActiveComponent }) => {
   };
 
   const allMenuItems = [
+  
     {
-      name: "مدیریت دسته‌ها",
-      value: "categories",
-      icon: <MdCategory className="text-orange-500" />,
-      adminOnly: true, // مثلا فقط ادمین ببیند
-    },
-    {
-      name: "افزودن عکس جدید",
-      value: "add-project",
+      name: "افزودن  سلایدر",
+      value: "add-slider",
       icon: <MdAddBox className="text-purple-500" />,
       adminOnly: true,
     },

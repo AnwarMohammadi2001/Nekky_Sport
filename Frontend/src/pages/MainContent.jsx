@@ -2,18 +2,19 @@ import React from "react";
 // ایمپورت صفحات
 import Dashboard from "../pages/Dashboard"; // صفحه اصلی داشبورد
 import CategoryManager from "../pages/dashboard/CategoryManager"; // صفحه دسته‌بندی
-import AddProject from "../pages/dashboard/AddProject"; // صفحه افزودن پروژه
+import AddProject from "./dashboard/AddSlider"; // صفحه افزودن پروژه
 import Projects from "../pages/dashboard/Projects"; // صفحه لیست پروژه‌ها (اگر دارید)
 import Logout from "../pages/dashboard/Logout";
 import ProductPage from "./ProductPage";
+import AddSlider from "./dashboard/AddSlider";
 
 const MainContent = ({ activeComponent }) => {
   switch (activeComponent) {
     case "categories":
       return <CategoryManager />;
 
-    case "add-project":
-      return <AddProject />;
+    case "add-slider":
+      return <AddSlider />;
 
     case "product":
       return <ProductPage />;

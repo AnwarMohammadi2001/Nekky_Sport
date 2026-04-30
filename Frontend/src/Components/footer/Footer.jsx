@@ -1,299 +1,255 @@
-import React from "react";
-import {
-  FaWhatsapp,
-  FaPhone,
-  FaEnvelope,
-  FaInstagram,
-  FaTelegram,
-  FaYoutube,
-  FaFacebook,
-  FaTwitter,
-  FaLinkedin,
-  FaPinterest,
-  FaFacebookF,
-} from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Facebook, Instagram, Twitter } from "lucide-react";
+import { FaSquareWhatsapp } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaInstagramSquare } from "react-icons/fa";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 import {
-  Palette,
-  Brush,
-  Camera,
-  Theater,
-  GalleryThumbnails,
-  User,
-  Mail,
-  Phone,
-  Globe,
-  Heart,
-  Sparkles,
-  Award,
-} from "lucide-react";
-import { Facebook } from "@mui/icons-material";
+  FaPhoneAlt,
+  FaWhatsapp,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
+import { getCategories } from "../../api/api";
 
 const Footer = () => {
-  const artist = {
-    name: "Hamidreza Khajehmohammadi",
-    title: "Pioneer Contemporary Iranian Artist",
-    bio: "An Iranian artist and asylum seeker with over 30 years of professional experience in art, education, and human rights advocacy.",
-    contact: {
-      whatsapp: "+93 70 582 9776",
-      phone: "+93 70 582 9776",
-      email: "hamid.painter.ir@gmail.com",
-      studio: "Tehran, Iran",
-    },
-    socialLinks: [
-      {
-        name: "Facebook",
-        url: "https://www.facebook.com/hamidreza.khajehmohammadi/",
-        icon: <FaFacebookF />,
-        color: "hover:bg-gradient-to-br from-blue-500 to-blue-700",
-      },
-      {
-        name: "Instagram",
-        url: "https://www.instagram.com/khajehmohammadihamidreza?igsh=N3BiNDhib2p5MTRx",
-        icon: <FaInstagram />,
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-        color:
-          "hover:bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500",
-      },
-      {
-        name: "YouTube",
-        url: "https://youtube.com/@hamidreza_art",
-        icon: <FaYoutube />,
-        color: "hover:bg-gradient-to-br from-red-600 to-red-800",
-      },
-    ],
-    quickLinks: [
-      {
-        name: "Exhibitions",
-        url: "/exhibitions",
-        icon: <GalleryThumbnails className="w-4 h-4" />,
-      },
-      {
-        name: "Art Gallery",
-        url: "/gallery",
-        icon: <Palette className="w-4 h-4" />,
-      },
-      {
-        name: "Biography",
-        url: "/biography",
-        icon: <User className="w-4 h-4" />,
-      },
-      {
-        name: "Interviews",
-        url: "/interviews",
-        icon: <Camera className="w-4 h-4" />,
-      },
-      {
-        name: "Theater Works",
-        url: "/theater",
-        icon: <Theater className="w-4 h-4" />,
-      },
-      {
-        name: "Achievements",
-        url: "/achievements",
-        icon: <Award className="w-4 h-4" />,
-      },
-      { name: "Contact", url: "/contact", icon: <Mail className="w-4 h-4" /> },
-      {
-        name: "Commissions",
-        url: "/commissions",
-        icon: <Brush className="w-4 h-4" />,
-      },
-    ],
-    categories: [
-      { name: "Islamic Art", count: 45 },
-      { name: "Contemporary", count: 32 },
-      { name: "Abstract", count: 28 },
-      { name: "Portraits", count: 23 },
-      { name: "Landscapes", count: 19 },
-      { name: "Digital Art", count: 15 },
-    ],
-  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getCategories();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
+        // Extract categories from response
+        let categoriesArray = [];
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 },
-    },
-  };
+        if (response?.data && Array.isArray(response.data)) {
+          categoriesArray = response.data;
+        } else if (Array.isArray(response)) {
+          categoriesArray = response;
+        } else if (response?.data?.data && Array.isArray(response.data.data)) {
+          categoriesArray = response.data.data;
+        } else if (
+          response?.data?.results &&
+          Array.isArray(response.data.results)
+        ) {
+          categoriesArray = response.data.results;
+        }
+
+        // Limit to first 6 categories for footer
+        setCategories(categoriesArray.slice(0, 6));
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
-    <footer className="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white pt-16 pb-8 px-4 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('footer.jpeg')] bg-cover bg-center" />
-      </div>
+    <footer
+      className="bg-[#060812] hidden md:block text-white"
+      aria-labelledby="footer-heading"
+    >
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-10">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+          <div className="space-y-8 xl:col-span-1">
+            {/* Logo and company name */}
+            <Link to="/" className="flex flex-col items-start justify-center">
+              <img
+                src="logo.jpeg"
+                alt="Website Logo"
+                className="h-[100px] w-auto"
+              />
+              <span className="text-3xl mr-10 font-semibold text-gray-100">
+                نیکی اسپورت
+              </span>
+            </Link>
+            <p className="text-base text-gray-400">
+              نیکی اسپورت عرضه‌کننده انواع محصولات و تجهیزات ورزشی با کیفیت
+              تضمین‌شده و قیمت مناسب در افغانستان است.
+            </p>
+          </div>
 
-      {/* Top Gradient Border */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-amber-400 to-cyan-500" />
-
-      <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Main Content Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 lg:grid-cols-4 gap-10 mb-16"
-        >
-          {/* Artist Profile Section */}
-          <motion.div
-            variants={itemVariants}
-            className="lg:col-span-2 space-y-6"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Sparkles className="w-6 h-6 text-amber-400" />
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-amber-300 to-cyan-300 bg-clip-text text-transparent">
-                  {artist.name}
-                </h2>
+          <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              {/* Quick Links */}
+              <div>
+                <h3 className="text-sm font-semibold text-red-500 tracking-wider uppercase">
+                  لینک های سریع
+                </h3>
+                <ul role="list" className="mt-4 space-y-2">
+                  <li className="flex items-center justify-between hover:bg-gray-700 p-1.5 rounded-md group transition-colors">
+                    <Link
+                      to="/"
+                      className="text-base text-gray-400 group-hover:text-white"
+                    >
+                      صفحه اصلی
+                    </Link>
+                    <MdKeyboardArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
+                  </li>
+                  <li className="flex items-center justify-between hover:bg-gray-700 p-1.5 rounded-md group transition-colors">
+                    <Link
+                      to="/products"
+                      className="text-base text-gray-400 group-hover:text-white"
+                    >
+                      محصولات
+                    </Link>
+                    <MdKeyboardArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
+                  </li>
+                  <li className="flex items-center justify-between hover:bg-gray-700 p-1.5 rounded-md group transition-colors">
+                    <Link
+                      to="/contact"
+                      className="text-base text-gray-400 group-hover:text-white"
+                    >
+                      پشتیبانی
+                    </Link>
+                    <MdKeyboardArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
+                  </li>
+                  <li className="flex items-center justify-between hover:bg-gray-700 p-1.5 rounded-md group transition-colors">
+                    <Link
+                      to="/aboutus"
+                      className="text-base text-gray-400 group-hover:text-white"
+                    >
+                      درباره ما
+                    </Link>
+                    <MdKeyboardArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
+                  </li>
+                </ul>
               </div>
-              <p className="text-xl text-amber-200 font-semibold">
-                {artist.title}
-              </p>
-              <div className="w-16 h-1 bg-gradient-to-r from-amber-500 to-cyan-500 rounded-full"></div>
+
+              {/* Categories - Dynamic from API */}
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold tracking-wider text-red-500 uppercase">
+                  دسته بندی ها
+                </h3>
+                <ul role="list" className="mt-4 space-y-2">
+                  {loading ? (
+                    // Loading skeletons
+                    [...Array(4)].map((_, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center justify-between p-1.5"
+                      >
+                        <div className="h-5 w-24 bg-gray-700 rounded animate-pulse"></div>
+                        <div className="w-4 h-4 bg-gray-700 rounded animate-pulse"></div>
+                      </li>
+                    ))
+                  ) : categories.length > 0 ? (
+                    categories.slice(0, 4).map((category) => (
+                      <li
+                        key={category.id}
+                        className="flex items-center justify-between hover:bg-gray-700 p-1.5 rounded-md group transition-colors"
+                      >
+                        <Link
+                          to={`/products?category=${category.id}`}
+                          className="text-base text-gray-400 group-hover:text-white"
+                        >
+                          {category.name}
+                        </Link>
+                        <MdKeyboardArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-gray-400 text-sm">
+                      دسته‌بندی موجود نیست
+                    </li>
+                  )}
+                </ul>
+              </div>
             </div>
 
-            <p className="text-gray-300 leading-relaxed text-lg max-w-2xl">
-              {artist.bio}
-            </p>
-          </motion.div>
+            {/* Contact Info */}
+            <div className="md:grid md:grid-cols-1 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold tracking-wider text-red-500 uppercase">
+                  تماس با ما
+                </h3>
 
-          {/* Social Media Section */}
-          <motion.div variants={itemVariants} className="space-y-8">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg">
-                  <FaInstagram className="w-5 h-5" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">Social Media</h3>
-              </div>
-
-              <div className="space-y-3">
-                {artist.socialLinks.map((link, index) => (
-                  <motion.a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.02, x: 5 }}
-                    className={`flex items-center gap-4 px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 ${link.color} hover:text-white transition-all duration-300 group`}
-                  >
-                    <span className="text-2xl text-gray-300 group-hover:text-white transition-colors">
-                      {link.icon}
+                <ul className="mt-4 space-y-3 text-sm text-gray-400">
+                  {/* Phone */}
+                  <li className="flex items-center gap-5">
+                    <span className="border rounded-md border-gray-400 p-2">
+                      <FaPhoneAlt size={18} className="text-gray-400" />
                     </span>
-                    <div>
-                      <span className="font-semibold">{link.name}</span>
-                      <div className="text-xs text-gray-400 group-hover:text-gray-300 mt-1">
-                        Follow for updates
-                      </div>
-                    </div>
-                  </motion.a>
-                ))}
+                    <span className="text-base">0784576164</span>
+                  </li>
+
+                  {/* WhatsApp */}
+                  <li className="flex items-center gap-5">
+                    <span className="border rounded-md border-gray-400 p-2">
+                      <FaWhatsapp size={18} className="text-gray-400" />
+                    </span>
+                    <span className="text-base">0748648401</span>
+                  </li>
+
+                  {/* Email */}
+                  <li className="flex items-center gap-5">
+                    <span className="border rounded-md border-gray-400 p-2">
+                      <FaEnvelope size={18} className="text-gray-400" />
+                    </span>
+                    <span className="text-base">info@nikisport.com</span>
+                  </li>
+
+                  {/* Address */}
+                  <li className="flex items-start gap-5">
+                    <span className="border rounded-md border-gray-400 p-2">
+                      <FaMapMarkerAlt size={18} className="text-gray-400" />
+                    </span>
+                    <span className="text-base">
+                      بین کوته سنگی و گولایی دواخانه مارکیت باختریان منزل دوم
+                    </span>
+                  </li>
+                </ul>
               </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Information */}
-          <motion.div variants={itemVariants} className="space-y-8">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-br from-amber-600 to-amber-400 rounded-lg">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">Contact Info</h3>
-              </div>
-
-              <div className="space-y-4">
-                {/* WhatsApp */}
-                <a
-                  href={`https://wa.me/${artist.contact.whatsapp}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-green-500/50 hover:bg-green-900/20 transition-all duration-300 group"
-                >
-                  <div className="">
-                    <FaWhatsapp className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">WhatsApp</div>
-                    <div className="text-sm text-gray-400 group-hover:text-green-300">
-                      {artist.contact.whatsapp}
-                    </div>
-                  </div>
-                </a>
-
-                {/* Phone */}
-                <a
-                  href={`tel:${artist.contact.phone}`}
-                  className="flex items-center gap-4 px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-blue-500/50 hover:bg-blue-900/20 transition-all duration-300 group"
-                >
-                  <div className="">
-                    <Phone className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Phone</div>
-                    <div className="text-sm text-gray-400 group-hover:text-blue-300">
-                      {artist.contact.phone}
-                    </div>
-                  </div>
-                </a>
-
-                {/* Email */}
-                <a
-                  href={`mailto:${artist.contact.email}`}
-                  className="flex items-center gap-4 px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700 hover:border-red-500/50 hover:bg-red-900/20 transition-all duration-300 group"
-                >
-                  <div className="">
-                    <FaEnvelope className="w-6 h-6 text-red-400" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Email</div>
-                    <div className="text-sm text-gray-400 group-hover:text-red-300">
-                      {artist.contact.email}
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Divider */}
-        <div className="border-t border-gray-700 pt-8 mb-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-3">
-              <Heart className="w-5 h-5 text-amber-500 animate-pulse" />
-              <p className="text-gray-400 text-sm">
-                © {new Date().getFullYear()} Hamidreza Khajehmohammadi. All
-                rights reserved.
-              </p>
-            </div>
-
-            <p className="text-gray-500 text-sm">
-              This website showcases four decades of artistic journey and
-              creativity
-            </p>
-
-            <div className="text-gray-500 text-sm text-center md:text-right">
-              <p>Designed for art lovers worldwide</p>
             </div>
           </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="pt-5 mt-8 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex gap-x-5">
+            <a
+              href="#"
+              className="group"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebookSquare
+                className="text-gray-400 group-hover:scale-110 transition group-hover:text-blue-500"
+                size={34}
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/"
+              className="group"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagramSquare
+                className="text-gray-400 group-hover:scale-110 transition group-hover:text-pink-500"
+                size={34}
+              />
+            </a>
+            <a
+              href="#"
+              className="group"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaSquareWhatsapp
+                className="text-gray-400 group-hover:scale-110 transition group-hover:text-green-500"
+                size={34}
+              />
+            </a>
+          </div>
+          <p className="text-base text-gray-400 text-center">
+            © {new Date().getFullYear()} نیکی اسپورت — تمامی حقوق محفوظ است.
+          </p>
         </div>
       </div>
     </footer>

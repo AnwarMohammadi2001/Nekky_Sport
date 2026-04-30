@@ -8,18 +8,21 @@ import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import DashboardPage from "./pages/DashboardPage";
-import Printing from "./pages/Printing";
-import GeraphicPage from "./pages/GeraphicPage";
-import InterviewPage from "./pages/InterviewPage";
-import ExhibitionPage from "./pages/ExhibitionPage";
-import Contact from "./pages/Contact";
-import TheaterPage from "./pages/ChildrenPage";
-import MiscellaneousPage from "./pages/MiscellaneousPage";
-import DesignPage from "./pages/DesignPage";
-import AchievementsPage from "./pages/AchievementsPage";
+
 import ScrollToTop from "./components/ScrollToTop";
-import ChildrenPage from "./pages/ChildrenPage";
+
 import PageNotFound from "./pages/PageNotFound";
+import ProductPage from "./pages/website/ProductPage";
+import ProductDetailPage from "./pages/website/ProductDetailPage";
+import SupportPage from "./pages/website/SupportPage";
+import HelpPage from "./pages/website/HelpPage";
+import About from "./pages/website/About";
+import WishlistPage from "./pages/website/WishlistPage";
+import CategoryPage from "./components/homepage/CategoryPage";
+import ProductCategoryPage from "./pages/website/ProductCategoryPage";
+// import Contact from "./components/Contact";
+// import ProductCategoryPage from "./pages/website/ProductCategoryPage";
+// import CategoryPage from "./components/homepage/CategoryPage";
 
 
 function App() {
@@ -31,19 +34,23 @@ function App() {
           {/* Public pages */}
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
-            <Route path="/painting" element={<Printing />} />
-            <Route path="/graphic" element={<GeraphicPage />} />
-            <Route path="/interview" element={<InterviewPage />} />
-            <Route path="/exhibition" element={<ExhibitionPage />} />
-            <Route path="/children" element={<ChildrenPage />} />
-            <Route path="/achivment" element={<AchievementsPage />} />
-            <Route path="/miscellaneous" element={<MiscellaneousPage />} />
-            <Route path="/design" element={<DesignPage />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="products" element={<ProductPage />} />
+            <Route path="/product/:id" element={<ProductDetailPage />} />
+            <Route path="contact" element={<SupportPage />} />
+            <Route path="help" element={<HelpPage />} />
+            <Route path="aboutus" element={<About />} />
+            <Route path="wishlist" element={<WishlistPage />} />
+            <Route path="categorie" element={<CategoryPage />} />
+            <Route
+              path="/category/:categoryId"
+              element={<ProductCategoryPage />}
+            />
+         
           </Route>
 
           {/* Auth pages */}
           <Route path="/login" element={<Login />} />
+
           <Route path="/register" element={<Register />} />
           <Route path="/*" element={<PageNotFound />} />
 

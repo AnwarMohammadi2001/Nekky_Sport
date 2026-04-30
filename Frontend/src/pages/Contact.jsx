@@ -147,46 +147,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-5" />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-white/60" />
-      </div>
+    
 
       {/* Main Content */}
       <div className="relative z-10 container max-w-7xl mx-auto px-4 py-12 md:py-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 mb-4">
-            <Sparkles className="w-5 h-5 text-amber-500" />
-            <span className="text-sm font-medium text-amber-600 bg-amber-50 px-4 py-1.5 rounded-full">
-              Get In Touch
-            </span>
-          </div>
-          <h1 className="text-lg md:text-2xl lg:text-2xl font-bold text-gray-800 mb-6">
-            Contact{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-cyan-600">
-              Hamidreza Khajehmohammadi
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            As a peace artist and children’s rights advocate, working in the
-            fields of painting, graphic design, illustration, and writing, I
-            consider art a universal language for dialogue, empathy, and the
-            preservation of human dignity. With utmost respect and enthusiasm, I
-            express my readiness for professional, artistic, and cultural
-            collaborations with galleries, international institutions, human
-            rights organizations, and cultural bodies worldwide. All interested
-            organizations and individuals are warmly invited to contact me
-            through the channels listed below. I will be honored to engage in
-            creative and humanitarian collaborations.
-          </p>
-        </motion.div>
+      
 
         {/* Split Layout */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
@@ -443,20 +408,7 @@ const Contact = () => {
           </motion.div>
         </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="mt-16 text-center"
-        >
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-cyan-50 px-6 py-3 rounded-full">
-            <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
-            <span className="text-gray-700 font-medium">
-              Response time: Typically within 24-48 hours
-            </span>
-          </div>
-        </motion.div>
+       
       </div>
     </div>
   );
