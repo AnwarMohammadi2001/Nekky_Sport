@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+const BASE_URL = import.meta.env.VITE_BASE_URL 
 const Category = () => {
   // State کتگوری
   const [name, setName] = useState("");
@@ -21,7 +21,7 @@ const Category = () => {
     setFetching(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/categories", {
+      const res = await fetch( `${BASE_URL}/api/categories`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -55,7 +55,7 @@ const Category = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/categories", {
+      const res = await fetch(`${BASE_URL}/api/categories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const Category = () => {
     setSubError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/subcategories", {
+      const res = await fetch(`${BASE_URL}/api/subcategories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

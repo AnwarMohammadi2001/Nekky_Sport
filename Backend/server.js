@@ -26,10 +26,10 @@ const __dirname = dirname(__filename);
 
 // ✅ Allowed origins
 const allowedOrigins = [
-  "https://tet-soft.com",
-  "http://localhost:3000",
+  "https://nekysport.com",
+  // "http://localhost:3000",
   "http://localhost:5173",
-  "https://backend.tet-soft.com",
+  "https://backend.nekysport.com",
 ];
 
 // ✅ Configure CORS

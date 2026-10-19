@@ -171,12 +171,34 @@ const Footer = () => {
                 </h3>
 
                 <ul className="mt-4 space-y-3 text-sm text-gray-400">
-                  {/* Phone */}
-                  <li className="flex items-center gap-5">
-                    <span className="border rounded-md border-gray-400 p-2">
+                  {/* Phone numbers — all three */}
+                  <li className="flex items-start gap-5">
+                    <span className="border rounded-md border-gray-400 p-2 shrink-0">
                       <FaPhoneAlt size={18} className="text-gray-400" />
                     </span>
-                    <span className="text-base">0784576164</span>
+                    <div className="flex flex-col gap-1 text-base">
+                      <a
+                        href="tel:0796888891"
+                        className="hover:text-white transition"
+                        dir="ltr"
+                      >
+                        0796888891
+                      </a>
+                      <a
+                        href="tel:0748648401"
+                        className="hover:text-white transition"
+                        dir="ltr"
+                      >
+                        0748648401
+                      </a>
+                      <a
+                        href="tel:0766924089"
+                        className="hover:text-white transition"
+                        dir="ltr"
+                      >
+                        0766924089
+                      </a>
+                    </div>
                   </li>
 
                   {/* WhatsApp */}
@@ -184,7 +206,15 @@ const Footer = () => {
                     <span className="border rounded-md border-gray-400 p-2">
                       <FaWhatsapp size={18} className="text-gray-400" />
                     </span>
-                    <span className="text-base">0748648401</span>
+                    <a
+                      href="https://wa.me/93776507777"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-base hover:text-white transition"
+                      dir="ltr"
+                    >
+                      0776507777
+                    </a>
                   </li>
 
                   {/* Email */}
@@ -192,16 +222,22 @@ const Footer = () => {
                     <span className="border rounded-md border-gray-400 p-2">
                       <FaEnvelope size={18} className="text-gray-400" />
                     </span>
-                    <span className="text-base">info@nikisport.com</span>
+                    <a
+                      href="mailto:info@nekkysport.com"
+                      className="text-base hover:text-white transition"
+                    >
+                      info@nekkysport.com
+                    </a>
                   </li>
 
                   {/* Address */}
                   <li className="flex items-start gap-5">
-                    <span className="border rounded-md border-gray-400 p-2">
+                    <span className="border rounded-md border-gray-400 p-2 shrink-0">
                       <FaMapMarkerAlt size={18} className="text-gray-400" />
                     </span>
-                    <span className="text-base">
-                      بین کوته سنگی و گولایی دواخانه مارکیت باختریان منزل دوم
+                    <span className="text-base leading-relaxed">
+                      کابل، چهار راهی پل سوخته، سرک دارالامان، روبروی حوزه ششم
+                      امنیتی پولیس، کوچه یخسازی، خانه نمبر۱
                     </span>
                   </li>
                 </ul>
@@ -236,7 +272,7 @@ const Footer = () => {
               />
             </a>
             <a
-              href="#"
+              href="https://wa.me/93776507777"
               className="group"
               target="_blank"
               rel="noopener noreferrer"
