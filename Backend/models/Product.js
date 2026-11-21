@@ -10,16 +10,6 @@ const Product = sequelize.define("Product", {
     allowNull: false,
   },
 
-  price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-
-  stock: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-  },
-
   description: {
     type: DataTypes.TEXT,
   },

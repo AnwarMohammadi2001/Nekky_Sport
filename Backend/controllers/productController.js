@@ -32,8 +32,6 @@ export const searchProducts = async (req, res) => {
     const {
       q, // search query
       categoryId, // filter by category
-      minPrice, // minimum price
-      maxPrice, // maximum price
       limit = 20, // results limit
       page = 1, // pagination
     } = req.query;
@@ -59,13 +57,6 @@ export const searchProducts = async (req, res) => {
       whereClause.categoryId = categoryId;
     }
 
-    // Filter by price range
-    if (minPrice || maxPrice) {
-      whereClause.price = {};
-      if (minPrice) whereClause.price[Op.gte] = parseFloat(minPrice);
-      if (maxPrice) whereClause.price[Op.lte] = parseFloat(maxPrice);
-    }
-
     // Execute search with pagination
     const { count, rows: products } = await Product.findAndCountAll({
       where: whereClause,
@@ -84,10 +75,7 @@ export const searchProducts = async (req, res) => {
       ],
       limit: parseInt(limit),
       offset: offset,
-      order: [
-        ["price", "ASC"],
-        ["createdAt", "DESC"],
-      ],
+      order: [["createdAt", "DESC"]],
     });
 
     // Normalize response to match your frontend expectations
@@ -117,8 +105,6 @@ export const searchProducts = async (req, res) => {
         id: productJson.id,
         title: productJson.name,
         name: productJson.name,
-        price: productJson.price,
-        stock: productJson.stock,
         description: productJson.description,
         categoryId: productJson.categoryId,
         image: mainImage ? `http://localhost:5000${mainImage.imageUrl}` : null,
@@ -164,7 +150,7 @@ export const searchSuggestions = async (req, res) => {
       where: {
         name: { [Op.like]: `%${q}%` },
       },
-      attributes: ["id", "name", "price"],
+      attributes: ["id", "name"],
       limit: parseInt(limit),
       order: [["name", "ASC"]],
     });
@@ -189,7 +175,6 @@ export const searchSuggestions = async (req, res) => {
         products: products.map((p) => ({
           id: p.id,
           name: p.name,
-          price: p.price,
         })),
         categories: [
           ...new Set(categories.map((p) => p.Category?.name).filter(Boolean)),
@@ -205,8 +190,7 @@ export const createProduct = async (req, res) => {
   const t = await sequelize.transaction();
 
   try {
-    const { name, price, stock, description, categoryId, attributes } =
-      req.body;
+    const { name, description, categoryId, attributes } = req.body;
     console.log("RAW:", attributes);
 
     const parsedAttributes = JSON.parse(attributes || "[]");
@@ -215,7 +199,7 @@ export const createProduct = async (req, res) => {
     console.log("PARSED:", parsedAttributes);
 
     const product = await Product.create(
-      { name, price, stock, description, categoryId },
+      { name, description, categoryId },
       { transaction: t },
     );
 
@@ -347,13 +331,13 @@ export const updateProduct = async (req, res) => {
   const t = await sequelize.transaction();
 
   try {
-    const { name, price, stock, description, attributes } = req.body;
+    const { name, description, attributes } = req.body;
 
     const parsedAttributes = JSON.parse(attributes || "[]");
 
     // 1. UPDATE PRODUCT (only once)
     await Product.update(
-      { name, price, stock, description },
+      { name, description },
       { where: { id: req.params.id }, transaction: t },
     );
 
