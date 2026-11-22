@@ -11,8 +11,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [productForm, setProductForm] = useState({
     name: "",
-    price: "",
-    stock: "",
     description: "",
     categoryId: "",
   });
@@ -52,8 +50,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
   const resetProductForm = () => {
     setProductForm({
       name: "",
-      price: "",
-      stock: "",
       description: "",
       categoryId: "",
     });
@@ -75,14 +71,12 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
 
   const handleCreateProduct = async () => {
     if (submitting) return; // 🔒 block double-click
-    if (!productForm.name || !productForm.price || !selectedProductCategory) {
+    if (!productForm.name || !selectedProductCategory) {
       return alert("Please fill all required fields and select a category");
     }
 
     const formData = new FormData();
     formData.append("name", productForm.name);
-    formData.append("price", productForm.price);
-    formData.append("stock", productForm.stock || 0);
     formData.append("description", productForm.description || "");
     formData.append("categoryId", selectedProductCategory);
     formData.append("attributes", JSON.stringify(buildAttributePayload()));
@@ -108,8 +102,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
 
     const formData = new FormData();
     formData.append("name", productForm.name);
-    formData.append("price", productForm.price);
-    formData.append("stock", productForm.stock);
     formData.append("description", productForm.description);
     formData.append("categoryId", selectedProductCategory);
     formData.append("attributes", JSON.stringify(buildAttributePayload()));
@@ -156,8 +148,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
     setEditingProduct(product);
     setProductForm({
       name: product.name,
-      price: product.price,
-      stock: product.stock,
       description: product.description || "",
       categoryId: product.categoryId,
     });
@@ -429,16 +419,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
               <span className="text-gray-500">No Image</span>
             </div>
           )}
-
-          <div
-            className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-semibold ${
-              product.stock > 0
-                ? "bg-green-500 text-white"
-                : "bg-red-500 text-white"
-            }`}
-          >
-            {product.stock > 0 ? `In Stock (${product.stock})` : "Out of Stock"}
-          </div>
         </div>
 
         {/* Product Info */}
@@ -450,11 +430,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
               </h3>
               <p className="text-sm text-gray-500 mt-1">
                 Category: {categoryName}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-2xl font-bold text-indigo-600">
-                {product.price}
               </p>
             </div>
           </div>
@@ -682,28 +657,6 @@ const ProductsTab = ({ categories, products, onProductsChange }) => {
             value={productForm.name}
             onChange={(e) =>
               setProductForm({ ...productForm, name: e.target.value })
-            }
-          />
-
-          <input
-            type="number"
-            placeholder="Price"
-            disabled={submitting}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-gray-100"
-            value={productForm.price}
-            onChange={(e) =>
-              setProductForm({ ...productForm, price: e.target.value })
-            }
-          />
-
-          <input
-            type="number"
-            placeholder="Stock Quantity"
-            disabled={submitting}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none disabled:bg-gray-100"
-            value={productForm.stock}
-            onChange={(e) =>
-              setProductForm({ ...productForm, stock: e.target.value })
             }
           />
 

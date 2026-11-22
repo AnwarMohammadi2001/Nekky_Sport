@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  ChevronDown,
   LayoutGrid,
   List,
   Loader2,
@@ -20,9 +19,6 @@ const ProductCategoryPage = () => {
   const [filters, setFilters] = useState({
     search: "",
     categoryId: "",
-    minPrice: 0,
-    maxPrice: 2000000,
-    stockStatus: "all",
     sortBy: "latest",
     page: 1,
     limit: 20,
@@ -86,15 +82,8 @@ const ProductCategoryPage = () => {
     queryFn: () =>
       searchProducts({
         categoryId: filters.categoryId,
-        minPrice: filters.minPrice > 0 ? filters.minPrice : undefined,
-        maxPrice: filters.maxPrice < 2000000 ? filters.maxPrice : undefined,
-        sortBy: filters.sortBy === "latest" ? "createdAt" : "price",
-        sortOrder:
-          filters.sortBy === "cheapest"
-            ? "ASC"
-            : filters.sortBy === "expensive"
-              ? "DESC"
-              : "DESC",
+        sortBy: "createdAt",
+        sortOrder: "DESC",
         limit: filters.limit,
         page: filters.page,
       }),
@@ -272,25 +261,6 @@ const ProductCategoryPage = () => {
                   </button>
                 </div>
 
-                {/* مرتب‌سازی */}
-                <div className="relative">
-                  <select
-                    value={filters.sortBy}
-                    onChange={(e) =>
-                      setFilters({
-                        ...filters,
-                        sortBy: e.target.value,
-                        page: 1,
-                      })
-                    }
-                    className="appearance-none bg-white border border-gray-200 rounded-xl py-3 pr-10 pl-6 text-sm font-black text-gray-700 cursor-pointer focus:ring-2 focus:ring-red-500 outline-none shadow-sm"
-                  >
-                    <option value="latest">جدیدترین‌ها</option>
-                    <option value="cheapest">ارزان‌ترین</option>
-                    <option value="expensive">گران‌ترین</option>
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                </div>
               </div>
             </div>
 

@@ -39,10 +39,6 @@ const Mobile_AccessSliderCart = ({ product }) => {
         className="absolute inset-0 w-full h-full rounded-t-lg transition-transform object-cover duration-700 group-hover:scale-110"
       />
       <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t rounded-b-lg from-black/80 via-black/10 to-transparent z-10" />
-      <p className="font-black absolute top-4 z-50 right-4 bg-gray-200 rounded-full px-3 py-1 text-sm md:text-sm">
-        {Number(product.price).toLocaleString()}{" "}
-        <span className="text-sm font-normal">AF</span>
-      </p>
       <div className="absolute bottom-0 left-0 right-0 z-20 p-4 flex rounded-b-lg flex-col gap-1">
         <div className="flex items-center justify-between">
           <p className="text-sm font-bold text-white line-clamp-1 mb-1">

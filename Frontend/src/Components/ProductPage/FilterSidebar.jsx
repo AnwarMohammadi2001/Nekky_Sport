@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Search, Filter, RotateCcw, Check } from "lucide-react";
 
 const FilterSidebar = ({
@@ -13,15 +13,6 @@ const FilterSidebar = ({
   const allCategories = useMemo(() => {
     return categories || [];
   }, [categories]);
-
-  const [priceRange, setPriceRange] = useState([
-    filters.minPrice,
-    filters.maxPrice,
-  ]);
-
-  useEffect(() => {
-    setPriceRange([filters.minPrice, filters.maxPrice]);
-  }, [filters.minPrice, filters.maxPrice]);
 
   const handleCategoryToggle = (id) => {
     if (selectedCategoryId === id && disableCategoryChange) return;
@@ -38,11 +29,7 @@ const FilterSidebar = ({
   };
 
   const handleApply = () => {
-    onApplyFilters({
-      ...filters,
-      minPrice: priceRange[0],
-      maxPrice: priceRange[1],
-    });
+    onApplyFilters({ ...filters });
   };
 
   const handleReset = () => {
@@ -50,13 +37,9 @@ const FilterSidebar = ({
       search: "",
       categories:
         selectedCategoryId && disableCategoryChange ? [selectedCategoryId] : [],
-      minPrice: 0,
-      maxPrice: 2000000,
-      stockStatus: "all",
       sortBy: "latest",
     };
     setFilters(resetValues);
-    setPriceRange([0, 2000000]);
     onApplyFilters(resetValues);
   };
 
@@ -146,79 +129,6 @@ const FilterSidebar = ({
             })}
           </div>
         )}
-      </div>
-
-      {/* Price Range */}
-      <div className="mb-8">
-        <h3 className="text-sm font-black text-gray-700 mb-4">
-          محدوده قیمت (AF)
-        </h3>
-        <div className="flex gap-2 mb-4">
-          <div className="flex-1 bg-white p-2 rounded-xl border border-gray-100 text-center">
-            <span className="text-[10px] text-gray-400 block">از</span>
-            <input
-              type="number"
-              value={priceRange[0]}
-              onChange={(e) =>
-                setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])
-              }
-              className="w-full text-xs font-black outline-none text-center"
-              min="0"
-            />
-          </div>
-          <div className="flex-1 bg-white p-2 rounded-xl border border-gray-100 text-center">
-            <span className="text-[10px] text-gray-400 block">تا</span>
-            <input
-              type="number"
-              value={priceRange[1]}
-              onChange={(e) =>
-                setPriceRange([priceRange[0], parseInt(e.target.value) || 0])
-              }
-              className="w-full text-xs font-black outline-none text-center"
-              min="0"
-            />
-          </div>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="2000000"
-          step="10000"
-          value={priceRange[1]}
-          onChange={(e) =>
-            setPriceRange([priceRange[0], parseInt(e.target.value)])
-          }
-          className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-600"
-        />
-        <div className="flex justify-between text-xs text-gray-400 mt-2">
-          <span>۰</span>
-          <span>۲,۰۰۰,۰۰۰ AF</span>
-        </div>
-      </div>
-
-      {/* Stock Status */}
-      <div className="mb-8">
-        <h3 className="text-sm font-black text-gray-700 mb-4">وضعیت کالا</h3>
-        <div className="flex flex-col gap-2 bg-white p-3 rounded-2xl border border-gray-100">
-          {[
-            { v: "all", l: "همه محصولات" },
-            { v: "available", l: "فقط محصولات موجود" },
-          ].map((s) => (
-            <label
-              key={s.v}
-              className="flex items-center gap-2 cursor-pointer py-1"
-            >
-              <input
-                type="radio"
-                name="stock"
-                checked={filters.stockStatus === s.v}
-                onChange={() => setFilters({ ...filters, stockStatus: s.v })}
-                className="w-4 h-4 accent-red-600"
-              />
-              <span className="text-xs font-bold text-gray-600">{s.l}</span>
-            </label>
-          ))}
-        </div>
       </div>
 
       {/* Apply Button */}

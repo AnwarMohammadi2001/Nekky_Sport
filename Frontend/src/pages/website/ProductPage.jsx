@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { ChevronDown, Loader2, SlidersHorizontal } from "lucide-react";
+import { Loader2, SlidersHorizontal } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getCategories, searchProducts, getProducts } from "../../api/api";
@@ -14,9 +14,6 @@ const ProductPage = () => {
   const [filters, setFilters] = useState({
     search: searchQueryFromUrl || "",
     categoryId: categoryFromUrl || "",
-    minPrice: 0,
-    maxPrice: 2000000,
-    stockStatus: "all",
     sortBy: "latest",
     page: 1,
     limit: 20,
@@ -57,22 +54,13 @@ const ProductPage = () => {
       // Use searchProducts if there's a search query or filters
       if (
         filters.search ||
-        filters.categoryId ||
-        filters.minPrice > 0 ||
-        filters.maxPrice < 2000000
+        filters.categoryId
       ) {
         return searchProducts({
           search: filters.search,
           categoryId: filters.categoryId,
-          minPrice: filters.minPrice > 0 ? filters.minPrice : undefined,
-          maxPrice: filters.maxPrice < 2000000 ? filters.maxPrice : undefined,
-          sortBy: filters.sortBy === "latest" ? "createdAt" : "price",
-          sortOrder:
-            filters.sortBy === "cheapest"
-              ? "ASC"
-              : filters.sortBy === "expensive"
-                ? "DESC"
-                : "DESC",
+          sortBy: "createdAt",
+          sortOrder: "DESC",
           limit: filters.limit,
           page: filters.page,
         });
@@ -179,26 +167,6 @@ const ProductPage = () => {
               </div>
 
               <div className="flex items-center gap-4">
-                {/* Sort by dropdown */}
-                <div className="relative">
-                  <select
-                    value={filters.sortBy}
-                    onChange={(e) =>
-                      setFilters({
-                        ...filters,
-                        sortBy: e.target.value,
-                        page: 1,
-                      })
-                    }
-                    className="appearance-none bg-white border border-gray-200 rounded-md py-3 pr-10 pl-6 text-sm font-black text-gray-700 cursor-pointer focus:ring-2 focus:ring-red-500 outline-none shadow-sm"
-                  >
-                    <option value="latest">جدیدترین‌ها</option>
-                    <option value="cheapest">ارزان‌ترین</option>
-                    <option value="expensive">گران‌ترین</option>
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                </div>
-
                 {/* View mode toggle */}
                 {/* <div className="flex gap-2 bg-white border border-gray-200 rounded-md p-1">
                   <button

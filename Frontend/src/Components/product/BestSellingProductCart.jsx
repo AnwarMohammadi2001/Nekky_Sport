@@ -41,13 +41,9 @@ const BestSellingProductCart = ({ product }) => {
       <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t rounded-b-lg from-black/80 via-black/10 to-transparent z-10" />
 
       <div className="absolute bottom-0 left-0 right-0 z-20 p-4 flex rounded-b-lg flex-col gap-1">
-        <p className="text-sm font-bold text-white line-clamp-1 mb-1">
-          {product.title}
-        </p>
         <div className="flex items-center justify-between">
-          <p className="font-black text-white text-sm md:text-lg">
-            {Number(product.price).toLocaleString()}{" "}
-            <span className="text-sm font-normal">AF</span>
+          <p className="text-sm font-bold text-white line-clamp-1 mb-1">
+            {product.title}
           </p>
           <button
             onClick={toggleWishlist}
@@ -61,4 +57,4 @@ const BestSellingProductCart = ({ product }) => {
   );
 };
 
-export default BestSellingProductCart;
+export default BestSellingProductCart;

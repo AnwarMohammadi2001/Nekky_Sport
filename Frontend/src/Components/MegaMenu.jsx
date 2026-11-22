@@ -214,13 +214,6 @@ const MegaMenu = ({ onClose }) => {
                                 />
                               </div>
                             )}
-
-                            {/* Stock Badge */}
-                            {product.stock <= 0 && (
-                              <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-                                ناموجود
-                              </div>
-                            )}
                           </div>
 
                           {/* Product Info */}
@@ -228,18 +221,6 @@ const MegaMenu = ({ onClose }) => {
                             <h4 className="font-bold text-sm text-gray-800 line-clamp-2 group-hover:text-red-600 transition-colors">
                               {product.name}
                             </h4>
-
-                            {/* Price */}
-                            <div className="flex items-center justify-between">
-                              <p className="text-red-600 font-black text-lg">
-                                {Number(product.price).toLocaleString()} AF
-                              </p>
-                              {product.stock > 0 && (
-                                <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                                  موجود
-                                </span>
-                              )}
-                            </div>
                           </div>
                         </Link>
                       );

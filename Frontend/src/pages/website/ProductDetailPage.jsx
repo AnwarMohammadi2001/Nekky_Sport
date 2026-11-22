@@ -354,15 +354,6 @@ const ProductDetailPage = () => {
                   {product.Category.name}
                 </span>
               )}
-              {product.stock > 0 ? (
-                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
-                  موجود در انبار
-                </span>
-              ) : (
-                <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">
-                  ناموجود
-                </span>
-              )}
               {product.is_new && (
                 <span className="bg-black text-white px-3 py-1 rounded-full text-xs font-bold">
                   جدید
@@ -374,32 +365,14 @@ const ProductDetailPage = () => {
               {product.name}
             </h1>
 
-            {/* Price Section */}
-            <div className="bg-gray-50 p-6 rounded-md border border-gray-100 mb-8">
-              <div className="flex items-center gap-4 mb-4 flex-wrap">
-                <span className="text-4xl font-black text-red-600">
-                  {Number(product.price).toLocaleString()}{" "}
-                  <small className="text-sm">AF</small>
-                </span>
-                {product.old_price > 0 && (
-                  <span className="text-xl text-gray-400 line-through">
-                    {Number(product.old_price).toLocaleString()}
-                  </span>
-                )}
-              </div>
-
-              {product.stock > 0 && product.stock < 10 && (
-                <p className="text-orange-600 text-sm mt-2">
-                  تنها {product.stock} عدد در انبار باقی مانده است
-                </p>
-              )}
-
-              {product.description && (
-                <p className="text-gray-600 leading-8 text-justify mt-4">
+            {/* Description Section */}
+            {product.description && (
+              <div className="bg-gray-50 p-6 rounded-md border border-gray-100 mb-8">
+                <p className="text-gray-600 leading-8 text-justify">
                   {product.description}
                 </p>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Product Specifications - Display attribute names and values as badges */}
             {productSpecs.length > 0 && (

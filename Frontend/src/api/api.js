@@ -68,8 +68,6 @@ export const searchProducts = async (filters = {}) => {
 
   if (filters.search) params.append("q", filters.search);
   if (filters.categoryId) params.append("categoryId", filters.categoryId);
-  if (filters.minPrice) params.append("minPrice", filters.minPrice);
-  if (filters.maxPrice) params.append("maxPrice", filters.maxPrice);
   if (filters.limit) params.append("limit", filters.limit);
   if (filters.page) params.append("page", filters.page);
   if (filters.sortBy) params.append("sortBy", filters.sortBy);

@@ -125,8 +125,7 @@ const AdvancedSearch = ({ isOpen, onClose }) => {
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-800 line-clamp-1">{product.title}</h4>
-                        <p className="text-xs text-gray-400 mb-2">{product.category_name}</p>
-                        <p className="text-red-600 font-black">{Number(product.price).toLocaleString()} AF</p>
+                        <p className="text-xs text-gray-400">{product.category_name}</p>
                       </div>
                     </motion.div>
                   )) : (
@@ -152,4 +151,4 @@ const AdvancedSearch = ({ isOpen, onClose }) => {
   );
 };
 
-export default AdvancedSearch;
+export default AdvancedSearch;

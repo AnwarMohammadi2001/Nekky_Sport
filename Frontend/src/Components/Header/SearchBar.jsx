@@ -361,26 +361,6 @@ const SearchBar = () => {
                               {getCategoryName(product)}
                             </p>
                           )}
-                          {product.stock !== undefined && (
-                            <p
-                              className={`text-[10px] mt-1 ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}
-                            >
-                              {product.stock > 0
-                                ? `موجودی: ${product.stock} عدد`
-                                : "ناموجود"}
-                            </p>
-                          )}
-                        </div>
-                        <div className="text-left shrink-0 pl-2">
-                          <p className="text-red-600 font-black text-sm">
-                            {Number(product.price).toLocaleString()}{" "}
-                            <small className="text-[8px]">AF</small>
-                          </p>
-                          {product.old_price > 0 && (
-                            <p className="text-[9px] text-gray-400 line-through">
-                              {Number(product.old_price).toLocaleString()}
-                            </p>
-                          )}
                         </div>
                         <ChevronLeft
                           size={14}

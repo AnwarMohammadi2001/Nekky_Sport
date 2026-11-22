@@ -117,8 +117,6 @@ export const getProducts = async (filters = {}) => {
   const queryParams = new URLSearchParams();
 
   if (filters.categoryId) queryParams.append("categoryId", filters.categoryId);
-  if (filters.minPrice) queryParams.append("minPrice", filters.minPrice);
-  if (filters.maxPrice) queryParams.append("maxPrice", filters.maxPrice);
   if (filters.search) queryParams.append("search", filters.search);
 
   if (queryParams.toString()) {
@@ -327,14 +325,6 @@ export const getImageUrl = (imagePath) => {
     return `http://localhost:5000${path}`;
   }
   return `http://localhost:5000/uploads/${path}`;
-};
-
-// Format price helper
-export const formatPrice = (price) => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(price);
 };
 
 // Error handler wrapper for API calls

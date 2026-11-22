@@ -30,9 +30,6 @@ const ProductCart = ({ product }) => {
     return {
       id: product?.id || null,
       name: product?.name || product?.title || "بدون نام",
-      price: product?.price || 0,
-      oldPrice: product?.old_price || product?.oldPrice || null,
-      stock: product?.stock || product?.inventory || 0,
       description: product?.description || "",
       categoryId: product?.categoryId,
       categoryName:
@@ -43,21 +40,6 @@ const ProductCart = ({ product }) => {
       createdAt: product?.createdAt || product?.created_at,
     };
   }, [product]);
-
-  // Check if product is in stock
-  const isInStock = productData.stock > 0;
-
-  // Calculate discount percentage
-  const hasDiscount =
-    productData.oldPrice &&
-    Number(productData.oldPrice) > Number(productData.price);
-  const discountPercent = hasDiscount
-    ? Math.round(
-        ((Number(productData.oldPrice) - Number(productData.price)) /
-          Number(productData.oldPrice)) *
-          100,
-      )
-    : 0;
 
   // Get main image
   useEffect(() => {
@@ -102,9 +84,7 @@ const ProductCart = ({ product }) => {
         savedWishlist.push({
           id: productData.id,
           name: productData.name,
-          price: productData.price,
           image: currentImage,
-          stock: productData.stock,
         });
         toast.success("به لیست علاقه‌مندی‌ها اضافه شد");
       }
@@ -120,10 +100,6 @@ const ProductCart = ({ product }) => {
   // Handle add to cart
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    if (!isInStock) {
-      toast.error("این محصول در حال حاضر موجود نیست");
-      return;
-    }
 
     // Get current cart from localStorage
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -138,10 +114,8 @@ const ProductCart = ({ product }) => {
       cart.push({
         id: productData.id,
         name: productData.name,
-        price: productData.price,
         image: currentImage,
         quantity: 1,
-        stock: productData.stock,
       });
       toast.success(`${productData.name} به سبد خرید اضافه شد`);
     }
@@ -166,11 +140,6 @@ const ProductCart = ({ product }) => {
             جدید
           </span>
         )}
-        {hasDiscount && discountPercent > 0 && (
-          <span className="bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-sm">
-            {discountPercent}% تخفیف
-          </span>
-        )}
       </div>
 
       {/* Image Section */}
@@ -183,15 +152,6 @@ const ProductCart = ({ product }) => {
             e.target.src = "/placeholder.png";
           }}
         />
-
-        {/* Out of stock overlay */}
-        {!isInStock && (
-          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center">
-            <span className="bg-red-600 text-white font-black px-4 py-2 rounded-xl rotate-[-15deg] shadow-lg text-sm">
-              ناموجود
-            </span>
-          </div>
-        )}
 
         {/* Quick view button on hover */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 z-10">
@@ -217,38 +177,8 @@ const ProductCart = ({ product }) => {
           {productData.description}
         </h4>
 
-        {/* Stock status */}
-        <div className="mb-2">
-          {isInStock ? (
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] text-green-600 font-bold">
-                موجود در انبار
-              </span>
-              {/* {productData.stock < 10 && (
-                <span className="text-[9px] text-orange-500">
-                  (تنها {productData.stock} عدد)
-                </span>
-              )} */}
-            </div>
-          ) : (
-            <span className="text-[10px] text-red-500 font-bold">ناموجود</span>
-          )}
-        </div>
-
-        {/* Price & Wishlist */}
-        <div className="mt-auto flex justify-between items-center pt-2 border-t border-gray-100">
-          <div className="flex flex-col">
-            <span className="text-black font-black text-lg flex items-center gap-1">
-              {Number(productData.price).toLocaleString()}
-              <small className="text-xs font-bold text-gray-500">AF</small>
-            </span>
-            {hasDiscount && (
-              <span className="text-[10px] text-gray-400 line-through">
-                {Number(productData.oldPrice).toLocaleString()} AF
-              </span>
-            )}
-          </div>
-
+        {/* Wishlist */}
+        <div className="mt-auto flex justify-end items-center pt-2 border-t border-gray-100">
           <div className="flex gap-1">
             {/* Wishlist button */}
             <button
